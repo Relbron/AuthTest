@@ -33,7 +33,7 @@ def login():
             msg = 'ID incorrecto!'
 
     
-    return render_template("index.html", msg='')
+    return render_template("index.html", msg=msg)
 
 @app.route('/auth/logout')
 def logout():
