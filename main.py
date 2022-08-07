@@ -10,27 +10,54 @@ app.secret_key = "secret"
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'redetpion66'
-app.config['MYSQL_DB'] = 'python'
+app.config['MYSQL_DB'] = 'mynewdb'
 
 mysql = MySQL(app)
 @app.route('/auth', methods=['GET','POST'])
 
 def login():
     msg=''
-    if request.method == 'POST' and 'id' in request.form:
-        id = request.form['id']
+    if request.method == 'POST' and 'cedula' in request.form:
+        cedula = request.form['cedula']
+        
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * from estudiantes WHERE id =%s ', (id,))
+        
+        cursor.execute('SELECT * from estudiantes WHERE cedula =%s ', (cedula,))
+       
+        
         account = cursor.fetchone()
+        print(account)
+
+        
+        
 
         if account:
             session['loggedin'] = True 
             session['ind'] = account['ind']
-            session['id'] = account['id']
+            session['cedula'] = account['cedula']
+            session['nombre'] = account['nombre']
+            session['ate'] = account['ate']
 
-            return redirect(url_for('home'))
+            if account['ate']:
+                msg = "Parece que ya ingresaste " + account['nombre']
+                
+
+            else:
+                msg = "Ya puedes almorzar " + account['nombre']
+                cursor.execute('UPDATE estudiantes SET ate = True WHERE cedula =%s ', (cedula,))
+                mysql.connection.commit()
+
+
+            
+
+            
+            
+          
+
+            
         else:
-            msg = 'ID incorrecto!'
+            msg = 'Cedula incorrecta! Acercate a alguno de los organizadores para mas informacion'
+            
 
     
     return render_template("index.html", msg=msg)
@@ -39,7 +66,7 @@ def login():
 def logout():
     session.pop('loggedin', None)
     session.pop('ind', None)
-    session.pop('id', None)
+    session.pop('cedula', None)
 
     return redirect(url_for('login'))
 
