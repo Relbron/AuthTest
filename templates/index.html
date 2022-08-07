@@ -10,23 +10,38 @@
 </head>
 <body>
 
-    <div class = login>
-        <h1>Ingresa tu ID</h1>
-        <div class ="links">
-            <a href ="{{ url_for('login') }}" class ="active">Autenticacion</a>
+    <div class = verificacion id ="pantalla">
+        
+        <div class = "container" id ="container">
+            <img src ="/static/recortada.png" alt ="" class="upb">
+            <p class="titulo">
+                Sistema de verificacion
+
+            </p>
+            <form action = "{{ url_for('login') }}" method="post" class = "formulario">
+                <label for="id" class ="label">
+                    Ingresa tu cedula
+                </label>
     
+                <input type ="text" name = "cedula" placeholder="Cedula" id="id" required class ="input">
+                <div class ="msg"> {{ msg }} </div>
+                <div class ="boton">
+                    <input type = "submit" value = "Verificar" id ="Btn" href ="{{ url_for('modal') }}" class = "button">
+
+                </div>
+                
+                
+                
+                
+    
+                
+            </form>
+
+
         </div>
-        <form action = "{{ url_for('login') }}" method="post">
-            <label for="id">
-                <i class = "fas fa-user"></i>
-            </label>
-
-            <input type ="text" name = "cedula" placeholder="Cedula" id="cedula" required>
-            <div class ="msg"> {{ msg }} </div>
-            <input type = "submit" value = "Verificar">
-
-            
-        </form>
+        
+        
+        {%block modal%} {%endblock%}
 
 
 
@@ -34,6 +49,11 @@
 
     </div>
     
+
+    
 </body>
+{%block script%}
+
+{%endblock%}
 </html>
 

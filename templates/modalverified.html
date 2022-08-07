@@ -1,0 +1,44 @@
+{% extends 'index.html'%}
+
+{%block modal%}
+
+{%with messages = get_flashed_messages()%}
+{% if messages %}
+{%for message in messages%}
+<div id="exampleModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+
+
+        
+
+
+        <img src ="/static/check.png" alt ="" class="icon">
+      <p >{{message}}</p>
+      <p >{{msg}}</p>
+
+      {%endfor%}
+      {%endif%}
+      {%endwith%}
+      
+      <a href="{{ url_for('login') }}" class ="btn btn=secondary">Cerrar</a>
+    </div>
+  
+  </div>
+{%endblock%}
+{%block script%}
+<script>
+
+    $(document).ready(function(){
+        $("exampleModal").modal("show")
+    })
+
+
+
+        
+      
+
+        
+</script>
+{%endblock%}
